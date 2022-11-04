@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/brown_background"
+    tools:context=".activities.AddActivity">
+
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/transparent"
+        android:src="@drawable/icons8_cancel_64"
+        android:scaleX="0.8"
+        android:scaleY="0.8"
+        app:tint="@color/cream"
+        android:onClick="onClickClose"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/name_input_text"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:hint="@string/nome"
+        android:fontFamily="@font/voces"
+        android:textColorHint="@color/cream"
+        android:layout_below="@+id/back_button"
+        android:layout_marginTop="50dp"
+        app:boxStrokeColor="@color/cream">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:background="@color/transparent"
+            android:fontFamily="@font/voces"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/name_archetype_text"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:hint="@string/archetipo"
+        android:fontFamily="@font/voces"
+        android:textColorHint="@color/cream"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/name_input_text"
+        app:boxStrokeColor="@color/cream">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:background="@color/transparent"
+            android:fontFamily="@font/voces"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/name_duelist_text"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:hint="@string/duellante"
+        android:fontFamily="@font/voces"
+        android:textColorHint="@color/cream"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/name_archetype_text"
+        app:boxStrokeColor="@color/cream">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:background="@color/transparent"
+            android:fontFamily="@font/voces"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/name_set_text"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        android:hint="@string/set_name"
+        android:fontFamily="@font/voces"
+        android:textColorHint="@color/cream"
+        android:layout_below="@+id/name_duelist_text"
+        app:boxStrokeColor="@color/cream">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:background="@color/transparent"
+            android:fontFamily="@font/voces"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <CheckBox
+        android:id="@+id/in_transit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name_set_text"
+        android:layout_marginTop="50dp"
+        android:text="@string/in_transito"
+        android:textColor="@color/cream"
+        android:buttonTint="@color/cream"
+        android:fontFamily="@font/voces"
+        android:textSize="20sp"
+        android:layout_centerHorizontal="true"/>
+
+    <ImageButton
+        android:id="@+id/crea_button"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/button"
+        android:onClick="onClickCreate"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/crea_button"
+        android:fontFamily="@font/voces"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/main_brown"
+        android:layout_centerHorizontal="true"
+        android:text="@string/crea"/>
+
+</RelativeLayout>

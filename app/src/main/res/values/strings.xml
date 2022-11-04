@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">CardTrackingApp</string>
+    <string name="appname">yu-gi-oh\ncard\ntracking\nsystem</string>
+    <string name="cerca">Cerca..</string>
+    <string name="filtra_per">Filtra per..</string>
+    <string name="name">name</string>
+    <string name="archetype">archetype</string>
+    <string name="duelist">duelist</string>
+    <string name="set">set</string>
+    <string name="card_tracking_system">CARD TRACKING SYSTEM</string>
+    <string name="nome">Nome:</string>
+    <string name="archetipo">Archetipo:</string>
+    <string name="duellante">Duellante:</string>
+    <string name="set_name">Set:</string>
+    <string name="in_transito">In Transito</string>
+    <string name="crea">Crea</string>
+    <string name="modifica">Modifica</string>
+
+</resources>
