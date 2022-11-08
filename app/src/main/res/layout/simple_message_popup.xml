@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="270dp"
+    android:layout_marginBottom="270dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_centerVertical="true">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/brown_background"
+        app:riv_corner_radius="90dip"
+        app:riv_corner_radius_bottom_left="30dp"
+        app:riv_corner_radius_bottom_right="30dp"
+        app:riv_corner_radius_top_left="30dp"
+        app:riv_corner_radius_top_right="30dp"
+        app:riv_mutate_background="true" />
+
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/icons8_cancel_64"
+        android:onClick="onClickClose"
+        android:backgroundTint="@color/cream" />
+
+    <TextView
+        android:id="@+id/message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/voces"
+        android:layout_above="@id/ok_button"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_alignTop="@+id/background"
+        android:layout_marginEnd="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/cream"
+        android:textSize="20sp"
+        android:text="@string/prezzo_cardmarket"/>
+
+    <ImageButton
+        android:id="@+id/ok_button"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@id/background"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/button"
+        tools:ignore="ContentDescription" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/ok_button"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/voces"
+        android:textColor="@color/main_brown"
+        android:layout_centerHorizontal="true"
+        android:text="OK"/>
+
+</RelativeLayout>

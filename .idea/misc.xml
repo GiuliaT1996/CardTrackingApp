@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Giulia.Tincano/AndroidStudioProjects/CardTrackingApp/app/src/main/res/drawable/bottom_background.xml" value="0.124" />
+        <entry key="..\:/Users/Giulia.Tincano/AndroidStudioProjects/CardTrackingApp/app/src/main/res/drawable/button.xml" value="0.124" />
         <entry key="..\:/Users/Giulia.Tincano/AndroidStudioProjects/CardTrackingApp/app/src/main/res/drawable/filter_spinner_dropdown_bg.xml" value="0.1305" />
         <entry key="..\:/Users/Giulia.Tincano/AndroidStudioProjects/CardTrackingApp/app/src/main/res/drawable/recycler_background.xml" value="0.2" />
         <entry key="..\:/Users/Giulia.Tincano/AndroidStudioProjects/CardTrackingApp/app/src/main/res/drawable/yu-gi-oh_background_background.xml" value="0.1" />
@@ -12,8 +13,9 @@
         <entry key="..\:/Users/Giulia.Tincano/AndroidStudioProjects/CardTrackingApp/app/src/main/res/layout/activity_add.xml" value="0.2" />
         <entry key="..\:/Users/Giulia.Tincano/AndroidStudioProjects/CardTrackingApp/app/src/main/res/layout/activity_logo.xml" value="0.152" />
         <entry key="..\:/Users/Giulia.Tincano/AndroidStudioProjects/CardTrackingApp/app/src/main/res/layout/activity_menu.xml" value="0.16799999999999998" />
-        <entry key="..\:/Users/Giulia.Tincano/AndroidStudioProjects/CardTrackingApp/app/src/main/res/layout/card_view.xml" value="0.1" />
-        <entry key="..\:/Users/Giulia.Tincano/AndroidStudioProjects/CardTrackingApp/app/src/main/res/layout/edit_popup.xml" value="0.1" />
+        <entry key="..\:/Users/Giulia.Tincano/AndroidStudioProjects/CardTrackingApp/app/src/main/res/layout/card_view.xml" value="0.33225283630470015" />
+        <entry key="..\:/Users/Giulia.Tincano/AndroidStudioProjects/CardTrackingApp/app/src/main/res/layout/edit_popup.xml" value="0.264" />
+        <entry key="..\:/Users/Giulia.Tincano/AndroidStudioProjects/CardTrackingApp/app/src/main/res/layout/simple_message_popup.xml" value="0.2" />
         <entry key="..\:/Users/Giulia.Tincano/AppData/Local/Android/Sdk/platforms/android-32/data/res/layout/simple_spinner_dropdown_item.xml" value="0.1" />
       </map>
     </option>

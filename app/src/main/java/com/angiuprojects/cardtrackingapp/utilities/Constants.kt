@@ -30,5 +30,9 @@ class Constants() {
 
     val CARD_TRACKING_DEBUGGER = "CardTrackingDebugger"
 
-    val fieldList = mutableListOf("Archetipo", "Duellante", "Set")
+    val fieldList = mutableListOf("Archetipo", "Duellante", "Set", "Prezzo")
+
+    val priceRange = mutableListOf("N/A", "< 1,00", "1,00 < x < 2,50", "2,50 < x < 10", "> 10")
+
+    val pricey = 2.0
 }

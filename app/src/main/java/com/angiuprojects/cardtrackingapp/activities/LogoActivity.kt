@@ -3,16 +3,17 @@ package com.angiuprojects.cardtrackingapp.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.angiuprojects.cardtrackingapp.R
 import com.angiuprojects.cardtrackingapp.handlers.EditPopUpHandler
 import com.angiuprojects.cardtrackingapp.queries.Queries
 import com.angiuprojects.cardtrackingapp.utilities.Constants
+import com.angiuprojects.cardtrackingapp.utilities.ExcelUtils
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class LogoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,12 +27,17 @@ class LogoActivity : AppCompatActivity() {
         Queries.getInstance().getCards()
 
         animateImage(this)
-        //animateText(R.id.app_name)
+    }
+
+    private fun readFromExcelCoroutine(context: Context) = runBlocking { /* this: CoroutineScope */
+        launch {
+            ExcelUtils.readFromExcelFile(context)
+        }
     }
 
     private fun animateImage(context: Context) {
         val animation: Animation = AlphaAnimation(0.0f, 1.0f)
-        animation.duration = 4000
+        animation.duration = 3000
 
         val nameText = findViewById<TextView>(R.id.app_name)
         nameText.startAnimation(animation)

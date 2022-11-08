@@ -2,12 +2,17 @@ package com.angiuprojects.cardtrackingapp.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.StrictMode
+import android.os.StrictMode.ThreadPolicy
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.ImageButton
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -18,8 +23,12 @@ import com.angiuprojects.cardtrackingapp.adapters.CardRecyclerAdapter
 import com.angiuprojects.cardtrackingapp.entities.Card
 import com.angiuprojects.cardtrackingapp.queries.Queries
 import com.angiuprojects.cardtrackingapp.utilities.Constants
+import com.angiuprojects.cardtrackingapp.utilities.Utils
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
+import org.jsoup.Jsoup
+import org.jsoup.select.Elements
+import java.lang.Exception
 
 
 class MenuActivity : AppCompatActivity() {
@@ -27,22 +36,52 @@ class MenuActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
 
-        printCards()
+        printCards(50)
 
         Constants.getInstance().getInstanceCards()?.let { setRecyclerAdapter(it) }
     }
 
-    private fun printCards() {
+    private fun printCards(limit: Int) {
 
         Log.i(Constants.getInstance().CARD_TRACKING_DEBUGGER,
             Constants.getInstance().getInstanceCards()?.size.toString()
         )
 
+        Constants.getInstance().getInstanceCards()?.removeAll{it.name == ""}
+
+        var counter = 0
+
         for(card in Constants.getInstance().getInstanceCards()!!) {
             Log.i(Constants.getInstance().CARD_TRACKING_DEBUGGER, card.name)
+
+            if(counter <= limit) {
+                getMinPrice(card)
+                counter++
+            }
         }
 
         Constants.getInstance().getInstanceCards()?.forEach { Log.i(Constants.getInstance().CARD_TRACKING_DEBUGGER, it.name) }
+    }
+
+    private fun getMinPrice(item: Card) {
+        if (item.minPrice == 0.0) {
+            try {
+                val price = Utils.cardMarketInfo(item)
+                item.minPrice = price
+
+                Queries.getInstance().addUpdateCard(item)
+
+                Log.i(
+                    Constants.getInstance().CARD_TRACKING_DEBUGGER,
+                    "Trovato prezzo ($price) carta " + item.name
+                )
+            } catch (e: Exception) {
+                Log.e(
+                    Constants.getInstance().CARD_TRACKING_DEBUGGER,
+                    "Errore cardmarket per la carta " + item.name
+                )
+            }
+        }
     }
 
     private fun setRecyclerAdapter(cardList: MutableList<Card>) {
@@ -78,6 +117,7 @@ class MenuActivity : AppCompatActivity() {
                     ?.toMutableList()!!
                 2 -> fieldList = Constants.getInstance().getInstanceCards()?.map { it.set }?.distinct()
                     ?.toMutableList()!!
+                3 -> fieldList = Constants.getInstance().priceRange
                 else -> Log.e(Constants.getInstance().CARD_TRACKING_DEBUGGER, "Nessun campo selezionato")
             }
 
@@ -167,7 +207,7 @@ class MenuActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val filteredList = filter(3, s.toString())
+                val filteredList = filter(4, s.toString())
                 setRecyclerAdapter(filteredList)
             }
         })
@@ -203,10 +243,35 @@ class MenuActivity : AppCompatActivity() {
             2 -> filteredList =
                 Constants.getInstance().getInstanceCards()?.filter { c ->  c.set.lowercase() == (text.lowercase())}
                     ?.toMutableList() ?: mutableListOf()
-            3 -> filteredList =
+            3 ->  filteredList = filterByPrize(text)
+            4 -> filteredList =
                 Constants.getInstance().getInstanceCards()?.filter { c ->  c.name.lowercase().contains(text.lowercase())}
                     ?.toMutableList() ?: mutableListOf()
             else -> Log.e(Constants.getInstance().CARD_TRACKING_DEBUGGER, "Nessun campo selezionato")
+        }
+
+        return filteredList
+    }
+
+    private fun filterByPrize(text: String) : MutableList<Card> {
+
+        var filteredList = mutableListOf<Card>()
+
+        if(text == Constants.getInstance().priceRange[0]) {
+            filteredList = Constants.getInstance().getInstanceCards()?.filter { c -> c.minPrice <= 0.0 }
+                    ?.toMutableList() ?: mutableListOf()
+        } else if(text == Constants.getInstance().priceRange[1]) {
+            filteredList = Constants.getInstance().getInstanceCards()?.filter { c -> c.minPrice > 0 && c.minPrice <= 1.0 }
+                ?.toMutableList() ?: mutableListOf()
+        } else if(text == Constants.getInstance().priceRange[2]) {
+            filteredList = Constants.getInstance().getInstanceCards()?.filter { c -> c.minPrice > 1.0 && c.minPrice <= 2.5 }
+                ?.toMutableList() ?: mutableListOf()
+        } else if(text == Constants.getInstance().priceRange[3]) {
+            filteredList = Constants.getInstance().getInstanceCards()?.filter { c -> c.minPrice > 2.5 && c.minPrice <= 10.0 }
+                ?.toMutableList() ?: mutableListOf()
+        } else if(text == Constants.getInstance().priceRange[4]) {
+            filteredList = Constants.getInstance().getInstanceCards()?.filter { c -> c.minPrice > 10.0 }
+                ?.toMutableList() ?: mutableListOf()
         }
 
         return filteredList

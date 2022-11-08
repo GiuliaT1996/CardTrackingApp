@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
     android:layout_marginStart="10dp"
+    android:layout_marginTop="10dp"
     android:layout_marginEnd="10dp">
 
     <TextView
@@ -14,12 +15,14 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/pricey"
         android:layout_alignBottom="@+id/pricey"
+        android:autoSizeMaxTextSize="16sp"
+        android:autoSizeMinTextSize="10dp"
+        android:autoSizeTextType="uniform"
         android:fontFamily="@font/voces"
         android:gravity="center_vertical"
         android:text="@string/name"
         android:textAllCaps="true"
         android:textColor="@color/main_brown"
-        android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
@@ -30,11 +33,12 @@
         android:layout_alignTop="@+id/inTransit"
         android:layout_alignBottom="@+id/inTransit"
         android:layout_marginTop="10dp"
+        android:autoSizeMaxTextSize="14sp"
+        android:autoSizeMinTextSize="10dp"
         android:fontFamily="@font/voces"
         android:gravity="center_vertical"
         android:text="@string/archetype"
-        android:textColor="@color/main_brown"
-        android:textSize="16sp" />
+        android:textColor="@color/main_brown" />
 
     <TextView
         android:id="@+id/duelist"
@@ -49,7 +53,8 @@
         android:gravity="center_vertical"
         android:text="@string/duelist"
         android:textColor="@color/main_brown"
-        android:textSize="16sp"
+        android:autoSizeMaxTextSize="14sp"
+        android:autoSizeMinTextSize="10dp"
         android:textStyle="bold" />
 
     <TextView
@@ -63,20 +68,39 @@
         android:layout_marginTop="10dp"
         android:layout_toStartOf="@+id/pricey"
         android:layout_toEndOf="@+id/archetype"
+        android:autoSizeMaxTextSize="14sp"
+        android:autoSizeMinTextSize="10dp"
         android:fontFamily="@font/voces"
         android:gravity="center_vertical"
         android:text="@string/set"
-        android:textColor="@color/main_brown"
-        android:textSize="16sp" />
+        android:textColor="@color/main_brown" />
 
-
-    <ImageView
+    <RelativeLayout
         android:id="@+id/pricey"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_alignParentEnd="true"
-        android:src="@drawable/icons8_euro_100"
-        app:tint="@color/goldenrod" />
+        android:layout_alignParentEnd="true">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/pricey_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/icons8_euro_100"
+            android:backgroundTint="@color/goldenrod" />
+
+        <TextView
+            android:id="@+id/pricey_text"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_below="@+id/pricey_image"
+            android:gravity="center_horizontal"
+            android:text="2,00"
+            android:textColor="@color/goldenrod"
+            android:textSize="8sp" />
+
+    </RelativeLayout>
+
 
     <ImageView
         android:id="@+id/inTransit"

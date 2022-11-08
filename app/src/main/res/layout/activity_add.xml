@@ -128,7 +128,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="30dp"
         android:background="@drawable/button"
-        android:onClick="onClickCreate"/>
+        android:onClick="onClickCreate" />
 
     <TextView
         android:layout_width="wrap_content"

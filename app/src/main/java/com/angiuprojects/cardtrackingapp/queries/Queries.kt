@@ -3,7 +3,9 @@ package com.angiuprojects.cardtrackingapp.queries
 import android.util.Log
 import com.angiuprojects.cardtrackingapp.entities.Card
 import com.angiuprojects.cardtrackingapp.utilities.Constants
+import com.angiuprojects.cardtrackingapp.utilities.Utils
 import com.google.firebase.database.*
+import java.lang.Exception
 
 class Queries {
 
@@ -36,7 +38,7 @@ class Queries {
                 val item: Card? = dataSnapshot.getValue(Card::class.java)
 
                 if (item != null) {
-                    Constants.getInstance().getInstanceCards()?.add(item)
+                   Constants.getInstance().getInstanceCards()?.add(item)
                 }
             }
 
@@ -49,6 +51,17 @@ class Queries {
 
     fun addUpdateCard(c: Card) {
         myRef = DB_INSTANCE.getReference(DB_CARD_PATH)
+
+        c.name = c.name.replace(".", "")
+
+        try {
+            val price = Utils.cardMarketInfo(c)
+            c.minPrice = price
+        } catch(e: Exception) {
+            c.minPrice = 0.0
+            Log.e(Constants.getInstance().CARD_TRACKING_DEBUGGER, "URL non raggiungibile, impostato prezzo di default")
+        }
+
         myRef.child(c.name).setValue(c)
     }
 

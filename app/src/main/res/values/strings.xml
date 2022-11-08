@@ -15,5 +15,6 @@
     <string name="in_transito">In Transito</string>
     <string name="crea">Crea</string>
     <string name="modifica">Modifica</string>
+    <string name="prezzo_cardmarket">Prezzo CardMarket:</string>
 
 </resources>
