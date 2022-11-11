@@ -47,7 +47,7 @@ class AddActivity : AppCompatActivity() {
 
 
         val card = Card(name, archetype, duelist, set, inTransit = inTransit.isChecked, 0.0)
-        Queries.getInstance().addUpdateCard(card)
+        Queries.getInstance().addUpdateCard(card, updatePrice = true)
 
         Snackbar.make(
             snackBarView, "Carta creata correttamente",

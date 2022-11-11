@@ -57,7 +57,7 @@ class ExcelUtils  : ViewModel(){
                     )
 
                     Constants.getInstance().getInstanceCards()?.add(card)
-                    Queries.getInstance().addUpdateCard(card)
+                    Queries.getInstance().addUpdateCard(card, false)
                     Log.i(Constants.getInstance().CARD_TRACKING_DEBUGGER, card.toString())
                 }
 

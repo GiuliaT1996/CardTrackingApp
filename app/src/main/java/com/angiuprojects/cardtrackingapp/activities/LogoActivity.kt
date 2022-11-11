@@ -8,6 +8,7 @@ import android.view.animation.Animation
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.angiuprojects.cardtrackingapp.R
+import com.angiuprojects.cardtrackingapp.entities.Settings
 import com.angiuprojects.cardtrackingapp.handlers.EditPopUpHandler
 import com.angiuprojects.cardtrackingapp.queries.Queries
 import com.angiuprojects.cardtrackingapp.utilities.Constants
@@ -16,6 +17,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class LogoActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_logo)
@@ -25,8 +27,11 @@ class LogoActivity : AppCompatActivity() {
         EditPopUpHandler.inizializeInstance()
 
         Queries.getInstance().getCards()
+        Queries.getInstance().getSettings()
 
         animateImage(this)
+
+
     }
 
     private fun readFromExcelCoroutine(context: Context) = runBlocking { /* this: CoroutineScope */

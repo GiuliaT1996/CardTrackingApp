@@ -1,6 +1,8 @@
 package com.angiuprojects.cardtrackingapp.utilities
 
 import com.angiuprojects.cardtrackingapp.entities.Card
+import com.angiuprojects.cardtrackingapp.entities.Settings
+import kotlinx.coroutines.Job
 
 class Constants() {
 
@@ -26,6 +28,15 @@ class Constants() {
             cards = ArrayList()
         }
         return cards
+    }
+
+    var settings: MutableList<Settings>? = null
+
+    fun getInstanceSettings(): MutableList<Settings>? {
+        if (settings == null) {
+            settings = ArrayList()
+        }
+        return settings
     }
 
     val CARD_TRACKING_DEBUGGER = "CardTrackingDebugger"

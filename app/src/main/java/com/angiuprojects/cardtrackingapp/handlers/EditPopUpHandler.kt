@@ -48,7 +48,7 @@ class EditPopUpHandler {
 
         card.inTransit = dialog.findViewById<CheckBox>(R.id.in_transit).isChecked
 
-        Queries.getInstance().addUpdateCard(card)
+        Queries.getInstance().addUpdateCard(card, true)
         adapter.notifyItemChanged(position)
         dialog.dismiss()
     }
@@ -63,7 +63,11 @@ class EditPopUpHandler {
         dialog.findViewById<TextInputLayout>(R.id.name_duelist_text).editText?.setText(card.duelist)
         dialog.findViewById<TextInputLayout>(R.id.name_set_text).editText?.setText(card.set)
         dialog.findViewById<CheckBox>(R.id.in_transit).isChecked = card.inTransit
-        dialog.findViewById<TextView>(R.id.cardmarket_price).text = "Prezzo CardMarket = " + Utils.doubleToString(card.minPrice)
+
+        if (card.minPrice <= 0.0)
+            dialog.findViewById<TextView>(R.id.cardmarket_price).text = "N/A"
+        else
+            dialog.findViewById<TextView>(R.id.cardmarket_price).text = Utils.doubleToString(card.minPrice)
 
         dialog.findViewById<ImageButton>(R.id.back_button).setOnClickListener { dialog.dismiss() }
         dialog.findViewById<ImageButton>(R.id.modify_button).setOnClickListener { modifyCard(card, view, position, adapter) }

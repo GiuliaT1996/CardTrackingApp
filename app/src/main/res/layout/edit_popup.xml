@@ -13,12 +13,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/brown_background"
-        app:riv_mutate_background="true"
         app:riv_corner_radius="90dip"
+        app:riv_corner_radius_bottom_left="30dp"
+        app:riv_corner_radius_bottom_right="30dp"
         app:riv_corner_radius_top_left="30dp"
         app:riv_corner_radius_top_right="30dp"
-        app:riv_corner_radius_bottom_left="30dp"
-        app:riv_corner_radius_bottom_right="30dp"/>
+        app:riv_mutate_background="true" />
 
     <ImageButton
         android:id="@+id/back_button"
@@ -131,7 +131,8 @@
         android:fontFamily="@font/voces"
         android:text="@string/in_transito"
         android:textColor="@color/cream"
-        android:textSize="20sp" />
+        android:autoSizeMaxTextSize="20sp"
+        android:autoSizeMinTextSize="8sp" />
 
     <TextView
         android:id="@+id/cardmarket_price"
@@ -141,7 +142,8 @@
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         android:textColor="@color/cream"
-        android:textSize="20sp"
+        android:autoSizeMaxTextSize="20sp"
+        android:autoSizeMinTextSize="8sp"
         android:text="@string/prezzo_cardmarket"
         android:layout_below="@id/in_transit"/>
 

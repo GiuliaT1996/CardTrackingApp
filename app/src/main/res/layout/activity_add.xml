@@ -17,11 +17,11 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:background="@color/transparent"
-        android:src="@drawable/icons8_cancel_64"
+        android:onClick="onClickClose"
         android:scaleX="0.8"
         android:scaleY="0.8"
-        app:tint="@color/cream"
-        android:onClick="onClickClose"/>
+        android:src="@drawable/icons8_cancel_64"
+        app:tint="@color/cream" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/name_input_text"

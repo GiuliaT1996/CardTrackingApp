@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/brown_background"
+    tools:context=".activities.SettingsActivity">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="140dp"
+        android:text="Impostazioni"
+        android:gravity="center"
+        android:textColor="@color/cream"
+        android:fontFamily="@font/voces"
+        android:textAllCaps="true"
+        android:autoSizeMinTextSize="8sp"
+        android:autoSizeMaxTextSize="30sp"
+        android:autoSizeTextType="uniform"
+        android:layout_alignBottom="@+id/back_button"
+        android:layout_alignTop="@+id/back_button"/>
+
+
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/transparent"
+        android:onClick="onClickClose"
+        android:scaleX="0.8"
+        android:scaleY="0.8"
+        android:src="@drawable/icons8_cancel_64"
+        app:tint="@color/cream" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/back_button"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/recycler_background">
+
+        <TextView
+            android:id="@+id/delete_set_label"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_toStartOf="@+id/delete_set_button"
+            android:autoSizeMaxTextSize="16sp"
+            android:autoSizeMinTextSize="8sp"
+            android:autoSizeTextType="uniform"
+            android:fontFamily="@font/voces"
+            android:gravity="center_vertical"
+            android:text="Elimina Set"
+            android:textAllCaps="true"
+            android:textColor="@color/main_brown" />
+
+        <ImageButton
+            android:id="@+id/delete_set_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/icons8_play_button_circled_64"
+            android:onClick="onClickDeleteSet"
+            android:backgroundTint="@color/main_brown" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/delete_set_label"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="20dp"
+            android:layout_toStartOf="@+id/delete_set_button"
+            android:autoSizeMaxTextSize="16sp"
+            android:autoSizeMinTextSize="8sp"
+            android:autoSizeTextType="uniform"
+            android:fontFamily="@font/voces"
+            android:gravity="center_vertical"
+            android:text="Abilita chiamate a CardMarket in background"
+            android:textAllCaps="true"
+            android:textColor="@color/main_brown" />
+
+        <ImageButton
+            android:id="@+id/unchecked"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/delete_set_button"
+            android:layout_alignStart="@+id/delete_set_button"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/icons8_unchecked_checkbox_100"
+            android:backgroundTint="@color/main_brown"
+            android:onClick="onClickStartCardMarketRequests"
+            android:scaleX="1.3"
+            android:scaleY="1.3" />
+
+        <ImageButton
+            android:id="@+id/checked"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/delete_set_button"
+            android:layout_alignStart="@+id/delete_set_button"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/icons8_checked_checkbox_100"
+            android:backgroundTint="@color/main_brown"
+            android:onClick="onClickStopCardMarketRequests"
+            android:scaleX="1.3"
+            android:scaleY="1.3" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

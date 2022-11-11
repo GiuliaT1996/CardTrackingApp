@@ -21,19 +21,21 @@ import com.angiuprojects.cardtrackingapp.handlers.EditPopUpHandler
 import com.angiuprojects.cardtrackingapp.queries.Queries
 import com.angiuprojects.cardtrackingapp.utilities.Constants
 import com.angiuprojects.cardtrackingapp.utilities.Utils
+import pl.droidsonroids.gif.GifImageView
 
 
 class CardRecyclerAdapter(private val dataSet : MutableList<Card>, private val context: Context) : RecyclerView.Adapter<CardRecyclerAdapter.MyViewHolder>() {
 
-    lateinit var dialog: Dialog
+    private lateinit var dialog: Dialog
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var name: TextView
         var archetype: TextView
         var duelist: TextView
-        var set: TextView
+        var toBeReleased: ImageButton
         var pricey: ImageButton
         var priceyText: TextView
+        var loadingPrice: GifImageView
         var inTransit: ImageView
         var layout: RelativeLayout
 
@@ -41,9 +43,10 @@ class CardRecyclerAdapter(private val dataSet : MutableList<Card>, private val c
             name = view.findViewById(R.id.name)
             archetype = view.findViewById(R.id.archetype)
             duelist = view.findViewById(R.id.duelist)
-            set = view.findViewById(R.id.set)
+            toBeReleased = view.findViewById(R.id.to_be_released)
             pricey = view.findViewById(R.id.pricey_image)
             priceyText = view.findViewById(R.id.pricey_text)
+            loadingPrice = view.findViewById(R.id.loading_price)
             inTransit = view.findViewById(R.id.inTransit)
             layout = view.findViewById(R.id.card_view)
         }
@@ -65,25 +68,21 @@ class CardRecyclerAdapter(private val dataSet : MutableList<Card>, private val c
 
         holder.name.text = dataSet[holder.adapterPosition].name
         holder.archetype.text = dataSet[holder.adapterPosition].archetype
-        holder.set.text = dataSet[holder.adapterPosition].set
         holder.duelist.text = dataSet[holder.adapterPosition].duelist
 
-        if(dataSet[holder.adapterPosition].minPrice <= 0.0)
-            holder.priceyText.text = "N/A"
-        else
-            holder.priceyText.text = Utils.doubleToString(dataSet[holder.adapterPosition].minPrice)
-
-        if(dataSet[holder.adapterPosition].minPrice <= Constants.getInstance().pricey)
-            ViewCompat.setBackgroundTintList(holder.pricey, ColorStateList.valueOf(Color.GRAY))
-        else
-            ViewCompat.setBackgroundTintList(holder.pricey, ColorStateList.valueOf(context.getColor(R.color.goldenrod)))
-
-        holder.pricey.setOnClickListener{onClickCallCardMarket(holder.adapterPosition, holder.pricey)}
+        handlePriceSettings(holder)
 
         if(!dataSet[holder.adapterPosition].inTransit)
             holder.inTransit.visibility = View.INVISIBLE
         else
             holder.inTransit.visibility = View.VISIBLE
+
+        if(dataSet[holder.adapterPosition].set.trim() == "")
+            holder.toBeReleased.visibility = View.INVISIBLE
+        else {
+            holder.toBeReleased.visibility = View.VISIBLE
+            holder.toBeReleased.setOnClickListener{onClickShowSetPopUp(dataSet[holder.adapterPosition].set.trim())}
+        }
 
         holder.layout.setOnLongClickListener {
             onLongClickEdit(holder.layout, holder)
@@ -92,25 +91,56 @@ class CardRecyclerAdapter(private val dataSet : MutableList<Card>, private val c
 
     }
 
-    private fun onClickCallCardMarket(position: Int, priceyButton: ImageButton) {
-        priceyButton.isClickable = false
+    private fun handlePriceSettings(holder: MyViewHolder) {
+        if (dataSet[holder.adapterPosition].minPrice <= 0.0)
+            holder.priceyText.text = "N/A"
+        else
+            holder.priceyText.text = Utils.doubleToString(dataSet[holder.adapterPosition].minPrice)
+
+        if (dataSet[holder.adapterPosition].minPrice <= Constants.getInstance().pricey)
+            ViewCompat.setBackgroundTintList(holder.pricey, ColorStateList.valueOf(Color.GRAY))
+        else
+            ViewCompat.setBackgroundTintList(
+                holder.pricey,
+                ColorStateList.valueOf(context.getColor(R.color.goldenrod))
+            )
+
+        holder.pricey.setOnClickListener { onClickCallCardMarket(holder.adapterPosition, holder) }
+    }
+
+    private fun onClickShowSetPopUp(set: String) {
+        createMessagePopUp(set)
+    }
+
+    private fun onClickCallCardMarket(position: Int, holder: MyViewHolder) {
+        switchPriceIcons(true, holder)
 
         val c = dataSet[position]
 
         try {
             val price = Utils.cardMarketInfo(c)
             c.minPrice = price
-            Queries.getInstance().addUpdateCard(c)
+            Queries.getInstance().addUpdateCard(c, updatePrice = false)
             this.notifyItemChanged(position)
-
-            createOkErrorPopUp("CardMarket: Prezzo minimo per la carta ${c.name}: ${if (price > 0) Utils.doubleToString(price) else "N/A"}", priceyButton)
+            switchPriceIcons(false, holder)
         } catch(e: Exception) {
             Log.e(Constants.getInstance().CARD_TRACKING_DEBUGGER, "Errore cardmarket per la carta " + c.name)
-            createOkErrorPopUp("CardMarket: Attenzione. Non è stato possibile recuperare il prezzo per la carta ${c.name}", priceyButton)
+            createMessagePopUp("CardMarket: Attenzione. Non è stato possibile recuperare il prezzo per la carta ${c.name}")
+            switchPriceIcons(false, holder)
         }
     }
 
-    private fun createOkErrorPopUp(message: String, priceyButton: ImageButton) {
+    private fun switchPriceIcons(isConnecting: Boolean, holder: MyViewHolder) {
+        if(isConnecting) {
+            holder.pricey.visibility = View.INVISIBLE
+            holder.loadingPrice.visibility = View.VISIBLE
+        } else {
+            holder.pricey.visibility = View.VISIBLE
+            holder.loadingPrice.visibility = View.GONE
+        }
+    }
+
+    private fun createMessagePopUp(message: String) {
 
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
@@ -119,17 +149,15 @@ class CardRecyclerAdapter(private val dataSet : MutableList<Card>, private val c
         dialog.setContentView(popUpView)
 
         popUpView.findViewById<TextView>(R.id.message).text = message
-        popUpView.findViewById<ImageButton>(R.id.ok_button).setOnClickListener{onClickClosePopUp(priceyButton)}
-        popUpView.findViewById<ImageButton>(R.id.back_button).setOnClickListener{onClickClosePopUp(priceyButton)}
+        popUpView.findViewById<ImageButton>(R.id.ok_button).setOnClickListener{onClickClosePopUp()}
 
-        dialog.window!!.setLayout(900,700)
+        dialog.window!!.setLayout(700,400)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
     }
 
-    private fun onClickClosePopUp(priceyButton: ImageButton) {
+    private fun onClickClosePopUp() {
         dialog.dismiss()
-        priceyButton.isClickable = true
     }
 
     override fun getItemCount() = dataSet.size
