@@ -39,12 +39,9 @@ class EditPopUpHandler {
         if(getTextFromInputDialog(R.id.archetype_input_text, dialog) != null) {
             card.archetype = getTextFromInputDialog(R.id.archetype_input_text, dialog)!!
         }
-        if(getTextFromInputDialog(R.id.name_duelist_text, dialog) != null) {
-            card.duelist = getTextFromInputDialog(R.id.name_duelist_text, dialog)!!
-        }
-        if(getTextFromInputDialog(R.id.name_set_text, dialog) != null) {
-            card.set = getTextFromInputDialog(R.id.name_set_text, dialog)!!
-        }
+        card.duelist = dialog.findViewById<TextInputLayout>(R.id.name_duelist_text).editText!!.text.toString()
+        card.set = dialog.findViewById<TextInputLayout>(R.id.name_set_text).editText!!.text.toString()
+
 
         card.inTransit = dialog.findViewById<CheckBox>(R.id.in_transit).isChecked
 

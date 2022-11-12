@@ -149,15 +149,10 @@ class CardRecyclerAdapter(private val dataSet : MutableList<Card>, private val c
         dialog.setContentView(popUpView)
 
         popUpView.findViewById<TextView>(R.id.message).text = message
-        popUpView.findViewById<ImageButton>(R.id.ok_button).setOnClickListener{onClickClosePopUp()}
 
-        dialog.window!!.setLayout(700,400)
+        dialog.window!!.setLayout(500,300)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
-    }
-
-    private fun onClickClosePopUp() {
-        dialog.dismiss()
     }
 
     override fun getItemCount() = dataSet.size

@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.AdapterView
 import android.widget.AutoCompleteTextView
 import android.widget.ImageButton
 import android.widget.TextView
@@ -84,11 +85,10 @@ class SettingsActivity : AppCompatActivity() {
 
         if (isChoiceSetPopUp) {
             popUpView.findViewById<TextView>(R.id.message).text = message
-            popUpView.findViewById<ImageButton>(R.id.ok_button).setOnClickListener{onClickClosePopUp()}
+            dialog.window!!.setLayout(800,500)
         } else
             handleSpinner(popUpView)
 
-        dialog.window!!.setLayout(900,1000)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
     }
@@ -96,11 +96,24 @@ class SettingsActivity : AppCompatActivity() {
     private fun handleSpinner(popUpView: View) {
         val filterSpinner = popUpView.findViewById<AutoCompleteTextView>(R.id.filter_spinner)
         filterSpinner.setText("")
-
-        val setList = Constants.getInstance().getInstanceCards()?.map { it.set }?.distinct()
+        val setList = Constants.getInstance().getInstanceCards()?.map { it.set }?.filter { it != "" }?.distinct()?.sorted()
             ?.toMutableList()!!
 
         Utils.setSpinnerInfo(setList, filterSpinner, this)
+
+        filterSpinner?.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, view, position, id ->
+
+                val names = StringBuilder()
+                val filtered = Utils.filter(2, filterSpinner.text.toString())
+                names.append("Carte nel set: \n")
+                filtered.forEach {
+                    names.append(it.name).append("\n")
+                }
+
+                popUpView.findViewById<TextView>(R.id.card_list_textview).text = names.toString()
+            }
+
         popUpView.findViewById<ImageButton>(R.id.ok_button).setOnClickListener{onClickDeleteSelectedSet(filterSpinner)}
     }
 
