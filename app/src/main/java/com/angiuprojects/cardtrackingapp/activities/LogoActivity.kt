@@ -32,7 +32,6 @@ class LogoActivity : AppCompatActivity() {
         Queries.getInstance().getSettings()
 
         animateImage(this)
-
     }
 
     private fun readFromExcelCoroutine(context: Context) = runBlocking { /* this: CoroutineScope */

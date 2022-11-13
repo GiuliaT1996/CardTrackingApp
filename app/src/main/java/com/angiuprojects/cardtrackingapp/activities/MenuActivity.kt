@@ -35,7 +35,7 @@ class MenuActivity : AppCompatActivity() {
 
     lateinit var itemTouchHelper: ItemTouchHelper
 
-    var searchFilterClicked : Boolean = false
+    private var searchFilterClicked : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -121,9 +121,11 @@ class MenuActivity : AppCompatActivity() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val deletedCard: Card = cardList[viewHolder.adapterPosition]
 
+                val position: Int = viewHolder.adapterPosition
                 cardList.removeAt(viewHolder.adapterPosition)
 
                 cardRecyclerAdapter.notifyItemRemoved(viewHolder.adapterPosition)
+
 
                 Queries.getInstance().deleteCard(deletedCard)
 
@@ -131,8 +133,8 @@ class MenuActivity : AppCompatActivity() {
                     .setAction(
                         "Annulla"
                     ) {
-                        cardList.add(viewHolder.adapterPosition, deletedCard)
-                        cardRecyclerAdapter.notifyItemInserted(viewHolder.adapterPosition)
+                        cardList.add(position, deletedCard)
+                        cardRecyclerAdapter.notifyItemInserted(position)
                         Queries.getInstance().addUpdateCard(deletedCard, updatePrice = false)
                     }.show()
             }
