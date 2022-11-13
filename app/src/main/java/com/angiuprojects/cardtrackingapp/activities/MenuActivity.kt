@@ -35,9 +35,13 @@ class MenuActivity : AppCompatActivity() {
 
     lateinit var itemTouchHelper: ItemTouchHelper
 
+    var searchFilterClicked : Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
+
+        searchFilterClicked = false
 
         Constants.getInstance().getInstanceCards()?.removeAll{it.name == ""}
 
@@ -154,14 +158,14 @@ class MenuActivity : AppCompatActivity() {
 
     fun onClickFilter(view : View) {
         setButtonNonClickable()
-        findViewById<ImageButton>(R.id.refresh_button).visibility = View.VISIBLE
+        refreshButton()
         findViewById<TextInputLayout>(R.id.filter_dropdown).visibility = View.VISIBLE
         createFilterAdapter()
     }
 
     fun onClickSearch(view : View) {
         setButtonNonClickable()
-        findViewById<ImageButton>(R.id.refresh_button).visibility = View.VISIBLE
+        refreshButton()
         val searchInputText = findViewById<TextInputLayout>(R.id.search_input_text)
         searchInputText.visibility = View.VISIBLE
         searchInputText.editText?.addTextChangedListener(object : TextWatcher {
@@ -176,22 +180,35 @@ class MenuActivity : AppCompatActivity() {
         })
     }
 
+    private fun refreshButton() {
+        val refreshButton = findViewById<ImageButton>(R.id.refresh_button)
+        refreshButton.visibility = View.VISIBLE
+        refreshButton.setOnClickListener { onClickRefreshActivity() }
+    }
+
     private fun setButtonNonClickable() {
         findViewById<ImageButton>(R.id.filter_button).isClickable = false
         findViewById<ImageButton>(R.id.search_button).isClickable = false
         findViewById<TextView>(R.id.title).visibility = View.INVISIBLE
         findViewById<ImageButton>(R.id.settings_button).visibility = View.INVISIBLE
+        searchFilterClicked = true
     }
 
-    fun onClickRefreshActivity(view : View) {
+    private fun onClickRefreshActivity() {
         setContentView(R.layout.activity_menu)
         Constants.getInstance().getInstanceCards()?.let { setRecyclerAdapter(it) }
         Constants.getInstance().getInstanceCards()?.let { populateCardCounter(it) }
+        searchFilterClicked = false
     }
 
     override fun onBackPressed() {
-        finishAffinity()
-        finish()
+
+        if(searchFilterClicked) {
+            onClickRefreshActivity()
+        } else {
+            finishAffinity()
+            finish()
+        }
     }
 
     fun onClickAdd(view: View) {

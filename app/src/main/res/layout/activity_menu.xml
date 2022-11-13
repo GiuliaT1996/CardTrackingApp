@@ -57,7 +57,6 @@
         android:layout_marginBottom="10dp"
         android:background="@color/transparent"
         android:backgroundTint="@color/cream"
-        android:onClick="onClickRefreshActivity"
         android:src="@drawable/icons8_ritorno_48"
         android:visibility="invisible"
         app:tint="@color/cream"
@@ -166,9 +165,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/counter"
-        android:background="@drawable/recycler_background"
         android:layout_marginTop="10dp"
-        />
+        android:background="@drawable/recycler_background" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/card_recycler_view"
@@ -176,11 +174,11 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/counter"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="80dp" />
+        android:layout_marginBottom="60dp" />
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/brown_background"
         app:riv_mutate_background="true"
@@ -191,50 +189,41 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="90dp"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true">
 
         <ImageButton
             android:id="@+id/filter_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="10dp"
-            android:background="@color/transparent"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/icons8_funnel_64"
+            android:backgroundTint="@color/cream"
             android:onClick="onClickFilter"
-            android:src="@drawable/icons8_funnel_64"
-            app:tint="@color/cream"
             tools:ignore="UsingOnClickInXml" />
 
         <ImageButton
             android:id="@+id/search_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="20dp"
-            android:background="@color/transparent"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/icons8_search_64"
             android:backgroundTint="@color/cream"
             android:onClick="onClickSearch"
-            android:src="@drawable/icons8_search_64"
-            app:tint="@color/cream"
             tools:ignore="UsingOnClickInXml" />
 
         <ImageButton
             android:id="@+id/add_button"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="13dp"
             android:layout_marginEnd="35dp"
-            android:background="@color/transparent"
+            android:background="@drawable/icons8_plus_64"
             android:backgroundTint="@color/cream"
             android:onClick="onClickAdd"
-            android:scaleX="0.8"
-            android:scaleY="0.8"
-            android:src="@drawable/icons8_plus_64"
-            app:tint="@color/cream"
             tools:ignore="UsingOnClickInXml" />
 
     </RelativeLayout>
