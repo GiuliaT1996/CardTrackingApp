@@ -14,6 +14,7 @@ import com.angiuprojects.cardtrackingapp.R
 import com.angiuprojects.cardtrackingapp.entities.Card
 import com.angiuprojects.cardtrackingapp.queries.Queries
 import com.angiuprojects.cardtrackingapp.utilities.Constants
+import com.angiuprojects.cardtrackingapp.utilities.Utils
 import com.google.android.material.snackbar.Snackbar
 
 class AddActivity : AppCompatActivity() {
@@ -22,9 +23,9 @@ class AddActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add)
 
-        setDropdown(R.id.archetype_auto_complete, getSuggetionList(0))
-        setDropdown(R.id.duelist_auto_complete, getSuggetionList(1))
-        setDropdown(R.id.set_auto_complete, getSuggetionList(2))
+        setDropdown(R.id.archetype_auto_complete, Utils.getSuggetionList(0))
+        setDropdown(R.id.duelist_auto_complete, Utils.getSuggetionList(1))
+        setDropdown(R.id.set_auto_complete, Utils.getSuggetionList(2))
     }
 
     fun onClickClose(view: View){
@@ -52,8 +53,6 @@ class AddActivity : AppCompatActivity() {
             return
         }
 
-
-
         val card = Card(name, archetype, duelist, set, inTransit = inTransit.isChecked, 0.0)
         Queries.getInstance().addUpdateCard(card, updatePrice = true)
 
@@ -63,22 +62,6 @@ class AddActivity : AppCompatActivity() {
         ).show()
 
         onClickClose(view)
-    }
-
-    private fun getSuggetionList(field: Int): MutableList<String> {
-
-        var suggestionList = mutableListOf<String>()
-
-        when(field) {
-            0 -> suggestionList = Constants.getInstance().getInstanceCards()?.map { it.archetype }?.sorted()?.distinct()
-                ?.toMutableList()!!
-            1 -> suggestionList = Constants.getInstance().getInstanceCards()?.map { it.duelist }?.sorted()?.distinct()
-                ?.toMutableList()!!
-            2 -> suggestionList = Constants.getInstance().getInstanceCards()?.map { it.set }?.sorted()?.distinct()
-                ?.toMutableList()!!
-            else -> Log.e(Constants.getInstance().CARD_TRACKING_DEBUGGER, "Nessun campo selezionato")
-        }
-        return suggestionList
     }
 
     private fun setDropdown(@IdRes id: Int, suggestionList: List<String>) {
