@@ -45,12 +45,14 @@
         android:fontFamily="@font/voces"
         android:textColorHint="@color/cream"
         android:layout_below="@+id/back_button"
-        android:layout_marginTop="20dp"
-        app:boxStrokeColor="@color/cream">
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        app:boxStrokeColor="@color/cream"
+        app:endIconTint="@color/cream">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <AutoCompleteTextView
+            android:id="@+id/name_auto_complete"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:textColor="@color/white"
             android:background="@color/transparent"
             android:fontFamily="@font/voces"
@@ -58,20 +60,23 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/archetype_input_text"
+        android:id="@+id/name_archetype_text"
         android:layout_width="230dp"
         android:layout_height="60dp"
         android:layout_centerHorizontal="true"
         android:hint="@string/archetipo"
         android:fontFamily="@font/voces"
         android:textColorHint="@color/cream"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_below="@+id/name_input_text"
-        app:boxStrokeColor="@color/cream">
+        app:boxStrokeColor="@color/cream"
+        app:endIconTint="@color/cream"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <AutoCompleteTextView
+            android:id="@+id/archetype_auto_complete"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:textColor="@color/white"
             android:background="@color/transparent"
             android:fontFamily="@font/voces"
@@ -86,13 +91,16 @@
         android:hint="@string/duellante"
         android:fontFamily="@font/voces"
         android:textColorHint="@color/cream"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/archetype_input_text"
-        app:boxStrokeColor="@color/cream">
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/name_archetype_text"
+        app:boxStrokeColor="@color/cream"
+        app:endIconTint="@color/cream"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <AutoCompleteTextView
+            android:id="@+id/duelist_auto_complete"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:textColor="@color/white"
             android:background="@color/transparent"
             android:fontFamily="@font/voces"
@@ -103,17 +111,20 @@
         android:id="@+id/name_set_text"
         android:layout_width="230dp"
         android:layout_height="60dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         android:hint="@string/set_name"
         android:fontFamily="@font/voces"
         android:textColorHint="@color/cream"
         android:layout_below="@+id/name_duelist_text"
-        app:boxStrokeColor="@color/cream">
+        app:boxStrokeColor="@color/cream"
+        app:endIconTint="@color/cream"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <AutoCompleteTextView
+            android:id="@+id/set_auto_complete"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:textColor="@color/white"
             android:background="@color/transparent"
             android:fontFamily="@font/voces"
@@ -127,25 +138,25 @@
         android:layout_below="@+id/name_set_text"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
+        android:autoSizeMaxTextSize="20sp"
+        android:autoSizeMinTextSize="8sp"
         android:buttonTint="@color/cream"
         android:fontFamily="@font/voces"
         android:text="@string/in_transito"
-        android:textColor="@color/cream"
-        android:autoSizeMaxTextSize="20sp"
-        android:autoSizeMinTextSize="8sp" />
+        android:textColor="@color/cream" />
 
     <TextView
         android:id="@+id/cardmarket_price"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:fontFamily="@font/voces"
-        android:layout_marginTop="20dp"
+        android:layout_below="@id/in_transit"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/cream"
+        android:layout_marginTop="20dp"
         android:autoSizeMaxTextSize="20sp"
         android:autoSizeMinTextSize="8sp"
+        android:fontFamily="@font/voces"
         android:text="@string/prezzo_cardmarket"
-        android:layout_below="@id/in_transit"/>
+        android:textColor="@color/cream" />
 
     <ImageButton
         android:id="@+id/modify_button"

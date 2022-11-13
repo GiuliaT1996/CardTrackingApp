@@ -1,5 +1,6 @@
 package com.angiuprojects.cardtrackingapp.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -27,9 +28,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.*
 import java.lang.Exception
+import java.lang.StringBuilder
 
 
 class MenuActivity : AppCompatActivity() {
+
+    lateinit var itemTouchHelper: ItemTouchHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +45,8 @@ class MenuActivity : AppCompatActivity() {
             CardMarketUtils.callCardMarketCoroutine()
 
         Constants.getInstance().getInstanceCards()?.let { setRecyclerAdapter(it) }
+
+        Constants.getInstance().getInstanceCards()?.let { populateCardCounter(it) }
     }
 
     private fun setRecyclerAdapter(cardList: MutableList<Card>) {
@@ -56,6 +62,15 @@ class MenuActivity : AppCompatActivity() {
         swipeToDelete(cardList, adapter)
     }
 
+    @SuppressLint("SetTextI18n")
+    private fun populateCardCounter(cardList: MutableList<Card>) {
+
+        val totalSize: Int = cardList.size
+        val setNotPopulated: Int = cardList.filter { it.set.trim() == "" }.size
+        val setPopulated = totalSize.minus(setNotPopulated)
+
+        findViewById<TextView>(R.id.counter).text = "Carte che devono uscire: $setPopulated\nCarte da comprare: $setNotPopulated"
+    }
 
     private fun createFilterAdapter() {
 
@@ -69,11 +84,11 @@ class MenuActivity : AppCompatActivity() {
             var fieldList = mutableListOf<String>()
 
             when(position) {
-                0 -> fieldList = Constants.getInstance().getInstanceCards()?.map { it.archetype }?.distinct()
+                0 -> fieldList = Constants.getInstance().getInstanceCards()?.map { it.archetype }?.sorted()?.distinct()
                     ?.toMutableList()!!
-                1 -> fieldList = Constants.getInstance().getInstanceCards()?.map { it.duelist }?.distinct()
+                1 -> fieldList = Constants.getInstance().getInstanceCards()?.map { it.duelist }?.sorted()?.distinct()
                     ?.toMutableList()!!
-                2 -> fieldList = Constants.getInstance().getInstanceCards()?.map { it.set }?.distinct()
+                2 -> fieldList = Constants.getInstance().getInstanceCards()?.map { it.set }?.sorted()?.distinct()
                     ?.toMutableList()!!
                 3 -> fieldList = Constants.getInstance().priceRange
                 else -> Log.e(Constants.getInstance().CARD_TRACKING_DEBUGGER, "Nessun campo selezionato")
@@ -86,7 +101,11 @@ class MenuActivity : AppCompatActivity() {
     private fun swipeToDelete(cardList: MutableList<Card>, cardRecyclerAdapter: CardRecyclerAdapter) {
 
         val cardRecyclerView = findViewById<RecyclerView>(R.id.card_recycler_view)
-        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+
+        if(::itemTouchHelper.isInitialized)
+            itemTouchHelper.attachToRecyclerView(null)
+
+        itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
@@ -98,8 +117,6 @@ class MenuActivity : AppCompatActivity() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val deletedCard: Card = cardList[viewHolder.adapterPosition]
 
-                val position = viewHolder.adapterPosition
-
                 cardList.removeAt(viewHolder.adapterPosition)
 
                 cardRecyclerAdapter.notifyItemRemoved(viewHolder.adapterPosition)
@@ -110,12 +127,13 @@ class MenuActivity : AppCompatActivity() {
                     .setAction(
                         "Annulla"
                     ) {
-                        cardList.add(position, deletedCard)
-                        cardRecyclerAdapter.notifyItemInserted(position)
+                        cardList.add(viewHolder.adapterPosition, deletedCard)
+                        cardRecyclerAdapter.notifyItemInserted(viewHolder.adapterPosition)
                         Queries.getInstance().addUpdateCard(deletedCard, updatePrice = false)
                     }.show()
             }
-        }).attachToRecyclerView(cardRecyclerView)
+        })
+        itemTouchHelper.attachToRecyclerView(cardRecyclerView)
     }
 
     private fun createChildFilter(filterItemList: List<String>, field: Int) {
@@ -128,6 +146,7 @@ class MenuActivity : AppCompatActivity() {
             OnItemClickListener { parent, view, position, id ->
                 val filteredList = Utils.filter(field, parent.getItemAtPosition(position) as String)
                 setRecyclerAdapter(filteredList)
+                populateCardCounter(filteredList)
             }
 
         findViewById<TextInputLayout>(R.id.child_filter_dropdown).visibility = View.VISIBLE
@@ -167,6 +186,7 @@ class MenuActivity : AppCompatActivity() {
     fun onClickRefreshActivity(view : View) {
         setContentView(R.layout.activity_menu)
         Constants.getInstance().getInstanceCards()?.let { setRecyclerAdapter(it) }
+        Constants.getInstance().getInstanceCards()?.let { populateCardCounter(it) }
     }
 
     override fun onBackPressed() {

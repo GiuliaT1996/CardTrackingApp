@@ -111,7 +111,8 @@ class SettingsActivity : AppCompatActivity() {
                     names.append(it.name).append("\n")
                 }
 
-                popUpView.findViewById<TextView>(R.id.card_list_textview).text = names.toString()
+                val cardList = popUpView.findViewById<TextView>(R.id.card_list_textview)
+                cardList.text = names.toString()
             }
 
         popUpView.findViewById<ImageButton>(R.id.ok_button).setOnClickListener{onClickDeleteSelectedSet(filterSpinner)}

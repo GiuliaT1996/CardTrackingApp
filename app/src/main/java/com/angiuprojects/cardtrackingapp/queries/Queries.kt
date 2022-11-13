@@ -54,7 +54,7 @@ class Queries {
     fun addUpdateCard(c: Card, updatePrice: Boolean) {
         myRef = DB_INSTANCE.getReference(DB_CARD_PATH)
 
-        c.name = c.name.replace(".", "")
+        c.name = c.name.replace(".", "").replace("/", "-")
 
         if(updatePrice) {
             try {

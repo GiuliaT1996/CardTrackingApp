@@ -13,6 +13,8 @@ import com.angiuprojects.cardtrackingapp.handlers.EditPopUpHandler
 import com.angiuprojects.cardtrackingapp.queries.Queries
 import com.angiuprojects.cardtrackingapp.utilities.Constants
 import com.angiuprojects.cardtrackingapp.utilities.ExcelUtils
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
@@ -30,7 +32,6 @@ class LogoActivity : AppCompatActivity() {
         Queries.getInstance().getSettings()
 
         animateImage(this)
-
 
     }
 

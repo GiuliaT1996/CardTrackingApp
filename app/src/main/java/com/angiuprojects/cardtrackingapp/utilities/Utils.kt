@@ -163,5 +163,21 @@ class Utils {
             return filteredList
         }
 
+        fun getSuggetionList(field: Int): MutableList<String> {
+
+            var suggestionList = mutableListOf<String>()
+
+            when(field) {
+                0 -> suggestionList = Constants.getInstance().getInstanceCards()?.map { it.archetype }?.sorted()?.distinct()
+                    ?.toMutableList()!!
+                1 -> suggestionList = Constants.getInstance().getInstanceCards()?.map { it.duelist }?.sorted()?.distinct()
+                    ?.toMutableList()!!
+                2 -> suggestionList = Constants.getInstance().getInstanceCards()?.map { it.set }?.sorted()?.distinct()
+                    ?.toMutableList()!!
+                else -> Log.e(Constants.getInstance().CARD_TRACKING_DEBUGGER, "Nessun campo selezionato")
+            }
+            return suggestionList
+        }
+
     }
 }

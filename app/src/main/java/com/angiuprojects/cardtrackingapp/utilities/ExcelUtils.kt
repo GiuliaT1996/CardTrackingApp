@@ -21,8 +21,8 @@ class ExcelUtils  : ViewModel(){
             val fileSystem = POIFSFileSystem(inputStream)
             workbook = HSSFWorkbook(fileSystem)
 
-            var currentRow = 1
-            val lastRow = 988
+            var currentRow = 0
+            val lastRow = 956
             var currentColumn = 0
             val lastColumn = 3
 
@@ -51,6 +51,9 @@ class ExcelUtils  : ViewModel(){
                 }
 
                 if(name.trim()!= "") {
+
+                    Log.i(Constants.getInstance().CARD_TRACKING_DEBUGGER, "Inserita carta $name")
+
                     val card = Card(name, archetype, duelist, set,
                         inTransit = false,
                         minPrice = 0.0

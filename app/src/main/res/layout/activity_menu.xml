@@ -10,18 +10,26 @@
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/card_recycler_view"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="140dp"
         android:fontFamily="@font/voces"
         android:textColor="@color/white_semitransparent"
-        android:layout_marginTop="10dp"
         android:autoSizeMaxTextSize="30sp"
         android:autoSizeMinTextSize="18sp"
         android:autoSizeTextType="uniform"
         android:gravity="center"
         android:text="@string/card_tracking_system"/>
+
+    <TextView
+        android:id="@+id/counter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/settings_button"
+        android:fontFamily="@font/voces"
+        android:gravity="center_horizontal"
+        android:textColor="@color/cream" />
 
     <ImageButton
         android:id="@+id/settings_button"
@@ -157,7 +165,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/child_filter_dropdown"
+        android:layout_below="@+id/counter"
         android:background="@drawable/recycler_background"
         android:layout_marginTop="10dp"
         />
@@ -166,7 +174,7 @@
         android:id="@+id/card_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/child_filter_dropdown"
+        android:layout_below="@+id/counter"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="80dp" />
 

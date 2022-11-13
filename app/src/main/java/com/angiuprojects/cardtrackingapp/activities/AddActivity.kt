@@ -2,21 +2,30 @@ package com.angiuprojects.cardtrackingapp.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.CheckBox
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import com.angiuprojects.cardtrackingapp.R
 import com.angiuprojects.cardtrackingapp.entities.Card
 import com.angiuprojects.cardtrackingapp.queries.Queries
+import com.angiuprojects.cardtrackingapp.utilities.Constants
+import com.angiuprojects.cardtrackingapp.utilities.Utils
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.textfield.TextInputLayout
 
 class AddActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add)
+
+        setDropdown(R.id.archetype_auto_complete, Utils.getSuggetionList(0))
+        setDropdown(R.id.duelist_auto_complete, Utils.getSuggetionList(1))
+        setDropdown(R.id.set_auto_complete, Utils.getSuggetionList(2))
     }
 
     fun onClickClose(view: View){
@@ -26,16 +35,16 @@ class AddActivity : AppCompatActivity() {
     }
 
     fun onClickCreate(view: View) {
-        val name = getTextFromInput(R.id.name_input_text)
-        val archetype = getTextFromInput(R.id.name_archetype_text)
-        val duelist = getTextFromInput(R.id.name_duelist_text)
-        val set = getTextFromInput(R.id.name_set_text)
+        val name = getTextFromInput(R.id.name_auto_complete)
+        val archetype = getTextFromInput(R.id.archetype_auto_complete)
+        val duelist = getTextFromInput(R.id.duelist_auto_complete)
+        val set = getTextFromInput(R.id.set_auto_complete)
 
         val inTransit = findViewById<CheckBox>(R.id.in_transit)
 
         val snackBarView = findViewById<View>(android.R.id.content)
 
-        if(name == null || archetype == null || duelist == null || set == null) {
+        if(name == "" || archetype == "") {
             Snackbar.make(
                 snackBarView, "Inserire tutti i campi obbligatori!",
                 Snackbar.LENGTH_LONG
@@ -43,8 +52,6 @@ class AddActivity : AppCompatActivity() {
 
             return
         }
-
-
 
         val card = Card(name, archetype, duelist, set, inTransit = inTransit.isChecked, 0.0)
         Queries.getInstance().addUpdateCard(card, updatePrice = true)
@@ -57,12 +64,24 @@ class AddActivity : AppCompatActivity() {
         onClickClose(view)
     }
 
+    private fun setDropdown(@IdRes id: Int, suggestionList: List<String>) {
+        val autoCompleteTextView = findViewById<AutoCompleteTextView>(id)
 
-    private fun getTextFromInput(@IdRes id: Int): String? {
-        val text = findViewById<TextInputLayout>(id)
-        return if (text != null && text.editText != null && text.editText!!.text != null && text.editText!!.text.toString()
-                .isNotEmpty()
-        ) text.editText!!.text.toString() else null
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, suggestionList)
+        autoCompleteTextView.setAdapter(adapter)
+
+        autoCompleteTextView.setDropDownBackgroundDrawable(
+            ResourcesCompat.getDrawable(
+                resources,
+                R.drawable.filter_spinner_dropdown_bg,
+                null
+            ))
+    }
+
+    private fun getTextFromInput(@IdRes id: Int): String {
+        val autoCompleteTextView = findViewById<AutoCompleteTextView>(id)
+        return if (autoCompleteTextView != null && autoCompleteTextView.text != null && autoCompleteTextView.text.isNotEmpty())
+            autoCompleteTextView.text.toString() else ""
     }
 
     override fun onBackPressed() {

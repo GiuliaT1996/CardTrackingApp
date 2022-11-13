@@ -60,8 +60,8 @@ class CardRecyclerAdapter(private val dataSet : MutableList<Card>, private val c
         return MyViewHolder(view)
     }
 
-    private fun onLongClickEdit(view: View, holder: MyViewHolder) {
-        EditPopUpHandler.getInstance().populateEditPopUp(dataSet[holder.adapterPosition], view, holder.adapterPosition, this)
+    private fun onLongClickEdit(view: View, holder: MyViewHolder, context: Context) {
+        EditPopUpHandler.getInstance().populateEditPopUp(dataSet[holder.adapterPosition], view, holder.adapterPosition, this, context)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
@@ -85,7 +85,7 @@ class CardRecyclerAdapter(private val dataSet : MutableList<Card>, private val c
         }
 
         holder.layout.setOnLongClickListener {
-            onLongClickEdit(holder.layout, holder)
+            onLongClickEdit(holder.layout, holder, context)
             true
         }
 

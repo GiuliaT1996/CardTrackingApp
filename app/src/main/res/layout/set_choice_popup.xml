@@ -75,23 +75,23 @@
                 tools:ignore="LabelFor" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <ScrollView
+        <com.angiuprojects.cardtrackingapp.utilities.ScrollViewWithMaxHeight
             android:id="@+id/card_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/filter_dropdown">
+            android:layout_below="@+id/filter_dropdown"
+            app:max_height="500dp">
 
             <TextView
                 android:id="@+id/card_list_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:autoSizeMaxTextSize="13sp"
                 android:autoSizeMinTextSize="8sp"
                 android:fontFamily="@font/voces"
-                android:textColor="@color/cream"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
-        </ScrollView>
+                android:textColor="@color/cream" />
+        </com.angiuprojects.cardtrackingapp.utilities.ScrollViewWithMaxHeight>
 
         <ImageButton
             android:id="@+id/ok_button"

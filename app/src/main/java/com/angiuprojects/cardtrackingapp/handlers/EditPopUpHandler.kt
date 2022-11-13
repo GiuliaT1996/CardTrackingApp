@@ -1,13 +1,13 @@
 package com.angiuprojects.cardtrackingapp.handlers
 
 import android.app.Dialog
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.View
-import android.widget.CheckBox
-import android.widget.ImageButton
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.IdRes
+import androidx.core.content.res.ResourcesCompat
 import com.angiuprojects.cardtrackingapp.R
 import com.angiuprojects.cardtrackingapp.adapters.CardRecyclerAdapter
 import com.angiuprojects.cardtrackingapp.entities.Card
@@ -33,14 +33,16 @@ class EditPopUpHandler {
 
     private fun modifyCard(card: Card, view: View, position: Int, adapter: CardRecyclerAdapter) {
 
-        if(getTextFromInputDialog(R.id.name_input_text, dialog) != null) {
-            card.name = getTextFromInputDialog(R.id.name_input_text, dialog)!!
+        if(getTextFromInputDialog(R.id.name_auto_complete, dialog) != null) {
+            if(card.name != getTextFromInputDialog(R.id.name_auto_complete, dialog))
+                Queries.getInstance().deleteCard(card)
+            card.name = getTextFromInputDialog(R.id.name_auto_complete, dialog)!!
         }
-        if(getTextFromInputDialog(R.id.archetype_input_text, dialog) != null) {
-            card.archetype = getTextFromInputDialog(R.id.archetype_input_text, dialog)!!
+        if(getTextFromInputDialog(R.id.archetype_auto_complete, dialog) != null) {
+            card.archetype = getTextFromInputDialog(R.id.archetype_auto_complete, dialog)!!
         }
-        card.duelist = dialog.findViewById<TextInputLayout>(R.id.name_duelist_text).editText!!.text.toString()
-        card.set = dialog.findViewById<TextInputLayout>(R.id.name_set_text).editText!!.text.toString()
+        card.duelist = dialog.findViewById<TextInputLayout>(R.id.duelist_auto_complete).editText!!.text.toString()
+        card.set = dialog.findViewById<TextInputLayout>(R.id.set_auto_complete).editText!!.text.toString()
 
 
         card.inTransit = dialog.findViewById<CheckBox>(R.id.in_transit).isChecked
@@ -50,15 +52,18 @@ class EditPopUpHandler {
         dialog.dismiss()
     }
 
-    fun populateEditPopUp(card: Card, view: View, position: Int, adapter: CardRecyclerAdapter) {
+    fun populateEditPopUp(card: Card, view: View, position: Int, adapter: CardRecyclerAdapter, context: Context) {
 
         dialog = Dialog(view.context)
         dialog.setContentView(R.layout.edit_popup)
 
-        dialog.findViewById<TextInputLayout>(R.id.name_input_text).editText?.setText(card.name)
-        dialog.findViewById<TextInputLayout>(R.id.archetype_input_text).editText?.setText(card.archetype)
-        dialog.findViewById<TextInputLayout>(R.id.name_duelist_text).editText?.setText(card.duelist)
-        dialog.findViewById<TextInputLayout>(R.id.name_set_text).editText?.setText(card.set)
+        dialog.findViewById<AutoCompleteTextView>(R.id.name_auto_complete).setText(card.name)
+        dialog.findViewById<AutoCompleteTextView>(R.id.archetype_auto_complete).setText(card.archetype)
+        dialog.findViewById<AutoCompleteTextView>(R.id.duelist_auto_complete).setText(card.duelist)
+        dialog.findViewById<AutoCompleteTextView>(R.id.set_auto_complete).setText(card.set)
+        setDropdown(R.id.archetype_auto_complete, Utils.getSuggetionList(0), context)
+        setDropdown(R.id.duelist_auto_complete, Utils.getSuggetionList(1), context)
+        setDropdown(R.id.set_auto_complete, Utils.getSuggetionList(2), context)
         dialog.findViewById<CheckBox>(R.id.in_transit).isChecked = card.inTransit
 
         if (card.minPrice <= 0.0)
@@ -74,10 +79,23 @@ class EditPopUpHandler {
 
     }
 
+    private fun setDropdown(@IdRes id: Int, suggestionList: List<String>, context: Context) {
+        val autoCompleteTextView = dialog.findViewById<AutoCompleteTextView>(id)
+
+        val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, suggestionList)
+        autoCompleteTextView.setAdapter(adapter)
+
+        autoCompleteTextView.setDropDownBackgroundDrawable(
+            ResourcesCompat.getDrawable(
+                context.resources,
+                R.drawable.filter_spinner_dropdown_bg,
+                null
+            ))
+    }
+
     private fun getTextFromInputDialog(@IdRes id: Int, dialog: Dialog): String? {
-        val text = dialog.findViewById<TextInputLayout>(id)
-        return if (text != null && text.editText != null && text.editText!!.text != null && text.editText!!.text.toString()
-                .isNotEmpty()
-        ) text.editText!!.text.toString() else null
+        val autoCompleteTextView = dialog.findViewById<AutoCompleteTextView>(id)
+        return if (autoCompleteTextView != null && autoCompleteTextView.text != null && autoCompleteTextView.text.isNotEmpty())
+            autoCompleteTextView.text.toString() else ""
     }
 }
