@@ -109,7 +109,7 @@ class CardRecyclerAdapter(private val dataSet : MutableList<Card>, private val c
     }
 
     private fun onClickShowSetPopUp(set: String) {
-        createMessagePopUp(set)
+        createMessagePopUp(set, 300)
     }
 
     private fun onClickCallCardMarket(position: Int, holder: MyViewHolder) {
@@ -125,7 +125,7 @@ class CardRecyclerAdapter(private val dataSet : MutableList<Card>, private val c
             switchPriceIcons(false, holder)
         } catch(e: Exception) {
             Log.e(Constants.getInstance().CARD_TRACKING_DEBUGGER, "Errore cardmarket per la carta " + c.name)
-            createMessagePopUp("CardMarket: Attenzione. Non è stato possibile recuperare il prezzo per la carta ${c.name}")
+            createMessagePopUp("CardMarket: Attenzione. Non è stato possibile recuperare il prezzo per la carta ${c.name}", 600)
             switchPriceIcons(false, holder)
         }
     }
@@ -140,7 +140,7 @@ class CardRecyclerAdapter(private val dataSet : MutableList<Card>, private val c
         }
     }
 
-    private fun createMessagePopUp(message: String) {
+    private fun createMessagePopUp(message: String, height: Int) {
 
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
@@ -150,7 +150,7 @@ class CardRecyclerAdapter(private val dataSet : MutableList<Card>, private val c
 
         popUpView.findViewById<TextView>(R.id.message).text = message
 
-        dialog.window!!.setLayout(500,300)
+        dialog.window!!.setLayout(500,height)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
     }

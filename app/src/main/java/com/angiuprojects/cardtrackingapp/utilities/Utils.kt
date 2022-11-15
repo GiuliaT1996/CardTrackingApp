@@ -29,7 +29,7 @@ class Utils {
             val stringBuilder = StringBuilder()
             val priceList = mutableListOf<Double>()
 
-            val objectClass = callCardMarket(constructUrl(card.name))
+            val objectClass = callCardMarket(constructUrl(card))
 
             if (objectClass != null) {
                 for(oc in objectClass) {
@@ -76,10 +76,13 @@ class Utils {
             }
         }
 
-        private fun constructUrl(name: String): String {
+        private fun constructUrl(card: Card): String {
             val pre = "https://www.cardmarket.com/it/YuGiOh/Products/Search?idCategory=0&idExpansion=0&searchString=%5B"
-            val url = name.trim().replace(" ", "+").replace("\"","")
+            val url = card.name.trim().replace(" ", "+").replace("\"","")
             val post = "%5D&exactMatch=on&idRarity=0&sortBy=price_asc&perSite=100"
+
+            if(card.archetype.trim() == "D.D.")
+                url.replace("DD", "D.D.")
 
             return pre + url + post
         }

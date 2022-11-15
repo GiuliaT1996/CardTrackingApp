@@ -7,13 +7,13 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView.OnItemClickListener
-import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.ImageButton
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,9 +26,6 @@ import com.angiuprojects.cardtrackingapp.utilities.Constants
 import com.angiuprojects.cardtrackingapp.utilities.Utils
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.coroutines.*
-import java.lang.Exception
-import java.lang.StringBuilder
 
 
 class MenuActivity : AppCompatActivity() {
@@ -88,11 +85,14 @@ class MenuActivity : AppCompatActivity() {
             var fieldList = mutableListOf<String>()
 
             when(position) {
-                0 -> fieldList = Constants.getInstance().getInstanceCards()?.map { it.archetype }?.sorted()?.distinct()
+                0 -> fieldList = Constants.getInstance().getInstanceCards()?.asSequence()?.filter { it.archetype.trim() != "" }
+                    ?.map { it.archetype }?.sorted()?.distinct()
                     ?.toMutableList()!!
-                1 -> fieldList = Constants.getInstance().getInstanceCards()?.map { it.duelist }?.sorted()?.distinct()
+                1 -> fieldList = Constants.getInstance().getInstanceCards()?.asSequence()?.filter { it.duelist.trim() != "" }
+                    ?.map { it.duelist }?.sorted()?.distinct()
                     ?.toMutableList()!!
-                2 -> fieldList = Constants.getInstance().getInstanceCards()?.map { it.set }?.sorted()?.distinct()
+                2 -> fieldList = Constants.getInstance().getInstanceCards()?.asSequence()?.filter { it.set.trim() != "" }
+                    ?.map { it.set }?.sorted()?.distinct()
                     ?.toMutableList()!!
                 3 -> fieldList = Constants.getInstance().priceRange
                 else -> Log.e(Constants.getInstance().CARD_TRACKING_DEBUGGER, "Nessun campo selezionato")
@@ -155,14 +155,24 @@ class MenuActivity : AppCompatActivity() {
                 populateCardCounter(filteredList)
             }
 
-        findViewById<TextInputLayout>(R.id.child_filter_dropdown).visibility = View.VISIBLE
+        adjustChildSpinnerSize()
     }
 
     fun onClickFilter(view : View) {
         setButtonNonClickable()
         refreshButton()
-        findViewById<TextInputLayout>(R.id.filter_dropdown).visibility = View.VISIBLE
+        val filterDropDown = findViewById<TextInputLayout>(R.id.filter_dropdown)
+        filterDropDown.visibility = View.VISIBLE
         createFilterAdapter()
+    }
+
+    private fun adjustChildSpinnerSize() {
+        val childFilterDropdown = findViewById<TextInputLayout>(R.id.child_filter_dropdown)
+        childFilterDropdown.layoutParams.width = 400
+        childFilterDropdown.editText?.textSize = 12F
+        childFilterDropdown.visibility = View.VISIBLE
+        val filterDropDown = findViewById<TextInputLayout>(R.id.filter_dropdown)
+        filterDropDown.editText?.textSize = 10F
     }
 
     fun onClickSearch(view : View) {
