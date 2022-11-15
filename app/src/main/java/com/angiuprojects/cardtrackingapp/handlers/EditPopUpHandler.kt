@@ -33,16 +33,14 @@ class EditPopUpHandler {
 
     private fun modifyCard(card: Card, view: View, position: Int, adapter: CardRecyclerAdapter) {
 
-        if(getTextFromInputDialog(R.id.name_auto_complete, dialog) != null) {
-            if(card.name != getTextFromInputDialog(R.id.name_auto_complete, dialog))
-                Queries.getInstance().deleteCard(card)
-            card.name = getTextFromInputDialog(R.id.name_auto_complete, dialog)!!
+        val newName = getTextFromInputDialog(R.id.name_auto_complete, dialog)
+        if(card.name != newName && newName != "") {
+            Queries.getInstance().deleteCard(card)
+            card.name = newName
         }
-        if(getTextFromInputDialog(R.id.archetype_auto_complete, dialog) != null) {
-            card.archetype = getTextFromInputDialog(R.id.archetype_auto_complete, dialog)!!
-        }
-        card.duelist = dialog.findViewById<TextInputLayout>(R.id.duelist_auto_complete).editText!!.text.toString()
-        card.set = dialog.findViewById<TextInputLayout>(R.id.set_auto_complete).editText!!.text.toString()
+        card.archetype = getTextFromInputDialog(R.id.archetype_auto_complete, dialog)
+        card.duelist = getTextFromInputDialog(R.id.duelist_auto_complete, dialog)
+        card.set = getTextFromInputDialog(R.id.set_auto_complete, dialog)
 
 
         card.inTransit = dialog.findViewById<CheckBox>(R.id.in_transit).isChecked
@@ -93,7 +91,7 @@ class EditPopUpHandler {
             ))
     }
 
-    private fun getTextFromInputDialog(@IdRes id: Int, dialog: Dialog): String? {
+    private fun getTextFromInputDialog(@IdRes id: Int, dialog: Dialog): String {
         val autoCompleteTextView = dialog.findViewById<AutoCompleteTextView>(id)
         return if (autoCompleteTextView != null && autoCompleteTextView.text != null && autoCompleteTextView.text.isNotEmpty())
             autoCompleteTextView.text.toString() else ""
